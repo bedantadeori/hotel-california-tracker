@@ -17,7 +17,7 @@ export default function App() {
       }
       grouped[day.week].push(day);
     });
-    return Object.keys(grouped).sort((a,b)=>a-b).map(w => ({
+    return Object.keys(grouped).sort((a, b) => a - b).map(w => ({
       weekNum: parseInt(w),
       days: grouped[w]
     }));
@@ -29,10 +29,10 @@ export default function App() {
 
   if (progressHook.isLoading) {
     return (
-      <div className="app-container" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <div style={{textAlign: 'center', color: 'var(--text-secondary)'}}>
-           <div style={{marginBottom: '1rem', fontSize: '2rem'}}>⏳</div>
-           <h2>Loading Progress...</h2>
+      <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+          <div style={{ marginBottom: '1rem', fontSize: '2rem' }}>⏳</div>
+          <h2>Loading Progress...</h2>
         </div>
       </div>
     );
@@ -43,29 +43,31 @@ export default function App() {
       <aside className="sidebar">
         <div className="sidebar-header">
           <div className="app-logo-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-               <path d="M9 18V5l12-2v13"></path>
-               <circle cx="6" cy="18" r="3"></circle>
-               <circle cx="18" cy="16" r="3"></circle>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
             </svg>
           </div>
-          <h1>Hotel California</h1>
-          <p>Mastery Plan</p>
+          <div className="sidebar-header-text">
+            <h1>Hotel California</h1>
+            <p>Guitar Mastery Plan</p>
+          </div>
         </div>
         <div className="sidebar-content">
-          <ProgressTracker 
-            weeks={weeks} 
-            progressHook={progressHook} 
+          <ProgressTracker
+            weeks={weeks}
+            progressHook={progressHook}
             activeDay={activeDay}
             setActiveDay={setActiveDay}
           />
         </div>
       </aside>
-      
+
       <main className="main-content">
-        <DayView 
-          dayData={activeDayData} 
-          progressHook={progressHook} 
+        <DayView
+          dayData={activeDayData}
+          progressHook={progressHook}
         />
       </main>
     </div>

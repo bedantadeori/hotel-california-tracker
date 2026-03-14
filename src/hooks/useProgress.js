@@ -35,14 +35,8 @@ export function useProgress() {
         if (data) {
           setCompletedTasks(data.completed_tasks || {});
           setCompletedDays(data.completed_days || []);
-        } else {
-          // Initialize empty progress if nothing exists
-          await supabase.from('user_progress').insert({
-            user_id: userId,
-            completed_tasks: {},
-            completed_days: []
-          });
         }
+        // No insert here — we'll upsert on first write
       } catch (e) {
         console.error('Failed to load data', e);
       } finally {
@@ -56,14 +50,19 @@ export function useProgress() {
   const syncToSupabase = useCallback(async (tasks, days) => {
     setSyncing(true);
     try {
-      await supabase
+      // upsert prevents duplicate rows — if user_id row exists, update it; if not, create it
+      const { error } = await supabase
         .from('user_progress')
-        .update({
-          completed_tasks: tasks,
-          completed_days: days,
-          updated_at: new Date().toISOString()
-        })
-        .eq('user_id', userId);
+        .upsert(
+          {
+            user_id: userId,
+            completed_tasks: tasks,
+            completed_days: days,
+            updated_at: new Date().toISOString()
+          },
+          { onConflict: 'user_id' }
+        );
+      if (error) throw error;
     } catch (e) {
       console.error('Failed to sync to Supabase', e);
     } finally {
@@ -80,12 +79,14 @@ export function useProgress() {
 
       const newState = { ...prev, [dayId]: updatedTasks };
       
-      // Auto-check for day completion
+      // Auto-check for day completion — only count actionable tasks (not Resource/Daily Motivation)
       let newDays = [...completedDays];
       const dayData = planData.find(d => d.day === dayId);
       if (dayData) {
-        const totalTasks = dayData.tasks.length;
-        if (updatedTasks.length === totalTasks) {
+        const actionableCount = dayData.tasks.filter(
+          t => t.category !== 'Daily Motivation' && t.category !== 'Resource'
+        ).length;
+        if (updatedTasks.length >= actionableCount && actionableCount > 0) {
           if (!newDays.includes(dayId)) {
             newDays = [...newDays, dayId].sort((a, b) => a - b);
           }
