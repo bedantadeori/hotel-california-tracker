@@ -58,12 +58,12 @@ export function useProgress() {
     try {
       await supabase
         .from('user_progress')
-        .upsert({
-          user_id: userId,
+        .update({
           completed_tasks: tasks,
           completed_days: days,
           updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id' });
+        })
+        .eq('user_id', userId);
     } catch (e) {
       console.error('Failed to sync to Supabase', e);
     } finally {
