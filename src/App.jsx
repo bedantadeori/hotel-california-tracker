@@ -39,6 +39,20 @@ export default function App() {
     return planData.find(d => d.day === activeDay);
   }, [activeDay]);
 
+  // Once progress loads, jump to the first incomplete day (their "current" day)
+  useEffect(() => {
+    if (progressHook.isLoading) return;
+    const totalDays = planData.length;
+    for (let day = 1; day <= totalDays; day++) {
+      if (!progressHook.isDayCompleted(day)) {
+        setActiveDay(day);
+        return;
+      }
+    }
+    // All days complete — stay on the last day
+    setActiveDay(totalDays);
+  }, [progressHook.isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
   };
