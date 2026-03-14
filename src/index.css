@@ -440,17 +440,37 @@ body {
   flex: 1;
 }
 
+.task-category-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
 .task-category {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--accent-color);
   font-weight: 700;
-  margin-bottom: 12px;
   display: inline-block;
   padding: 4px 10px;
   background: #eff6ff;
   border-radius: 6px;
+  margin-bottom: 0;
+}
+
+.task-duration {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-secondary);
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--border-color);
 }
 
 .task-item.completed .task-category {

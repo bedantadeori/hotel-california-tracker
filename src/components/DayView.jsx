@@ -120,7 +120,10 @@ export default function DayView({ dayData, progressHook }) {
                 </div>
               </div>
               <div className="task-content">
-                <div className="task-category">{task.category}</div>
+                <div className="task-category-row">
+                  <div className="task-category">{task.category}</div>
+                  {task.duration && <div className="task-duration">⏳ {task.duration}</div>}
+                </div>
                 <div className="task-description">
                   {parseDescription(task.content)}
                 </div>
