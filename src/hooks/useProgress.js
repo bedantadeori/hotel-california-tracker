@@ -1,56 +1,61 @@
 import { useState, useEffect, useCallback } from 'react';
 import planData from '../data/plan.json';
 import { supabase } from '../lib/supabase';
-import { v4 as uuidv4 } from 'uuid';
 
 export function useProgress() {
-  const [userId, setUserId] = useState(() => {
-    let id = localStorage.getItem('hc_user_id');
-    if (!id) {
-      id = uuidv4();
-      localStorage.setItem('hc_user_id', id);
-    }
-    return id;
-  });
-
+  const [userId, setUserId] = useState(null);
   const [completedTasks, setCompletedTasks] = useState({});
   const [completedDays, setCompletedDays] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
 
-  // Load initial data from Supabase
+  // Listen for auth state — this fires on login, logout, and on page load if session exists
   useEffect(() => {
-    async function loadData() {
-      try {
-        const { data, error } = await supabase
-          .from('user_progress')
-          .select('*')
-          .eq('user_id', userId)
-          .single();
-
-        if (error && error.code !== 'PGRST116') {
-          console.error('Error fetching progress:', error);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        const uid = session?.user?.id ?? null;
+        setUserId(uid);
+        if (!uid) {
+          // Logged out — clear state
+          setCompletedTasks({});
+          setCompletedDays([]);
+          setIsLoading(false);
+          return;
         }
 
-        if (data) {
-          setCompletedTasks(data.completed_tasks || {});
-          setCompletedDays(data.completed_days || []);
+        // Logged in — load progress
+        setIsLoading(true);
+        try {
+          const { data, error } = await supabase
+            .from('user_progress')
+            .select('*')
+            .eq('user_id', uid)
+            .single();
+
+          if (error && error.code !== 'PGRST116') {
+            console.error('Error fetching progress:', error);
+          }
+
+          if (data) {
+            setCompletedTasks(data.completed_tasks || {});
+            setCompletedDays(data.completed_days || []);
+          }
+        } catch (e) {
+          console.error('Failed to load data', e);
+        } finally {
+          setIsLoading(false);
         }
-        // No insert here — we'll upsert on first write
-      } catch (e) {
-        console.error('Failed to load data', e);
-      } finally {
-        setIsLoading(false);
       }
-    }
+    );
 
-    loadData();
-  }, [userId]);
+    return () => subscription.unsubscribe();
+  }, []);
 
   const syncToSupabase = useCallback(async (tasks, days) => {
+    if (!userId) return;
     setSyncing(true);
     try {
-      // upsert prevents duplicate rows — if user_id row exists, update it; if not, create it
+      // upsert prevents duplicate rows — creates row if not exists, updates if it does
       const { error } = await supabase
         .from('user_progress')
         .upsert(
@@ -78,7 +83,7 @@ export function useProgress() {
         : [...dayTasks, taskIndex];
 
       const newState = { ...prev, [dayId]: updatedTasks };
-      
+
       // Auto-check for day completion — only count actionable tasks (not Resource/Daily Motivation)
       let newDays = [...completedDays];
       const dayData = planData.find(d => d.day === dayId);
@@ -97,7 +102,7 @@ export function useProgress() {
 
       setCompletedDays(newDays);
       syncToSupabase(newState, newDays);
-      
+
       return newState;
     });
   };
@@ -107,9 +112,7 @@ export function useProgress() {
     return completedDays.includes(dayId - 1);
   };
 
-  const isDayCompleted = (dayId) => {
-    return completedDays.includes(dayId);
-  };
+  const isDayCompleted = (dayId) => completedDays.includes(dayId);
 
   const getDayProgress = (dayId) => {
     const dayData = planData.find(d => d.day === dayId);
@@ -119,6 +122,7 @@ export function useProgress() {
   };
 
   return {
+    userId,
     completedTasks,
     completedDays,
     toggleTask,
