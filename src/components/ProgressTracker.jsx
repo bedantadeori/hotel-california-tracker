@@ -36,7 +36,7 @@ export default function ProgressTracker({ weeks, progressHook, activeDay, setAct
               let className = 'day-bubble';
               if (!unlocked) className += ' locked';
               else if (completed) className += ' completed';
-              if (isCurrent && unlocked) className += ' current';
+              if (isCurrent) className += ' current';
 
               return (
                 <div 

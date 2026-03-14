@@ -44,7 +44,6 @@ export default function App() {
         <div className="sidebar-header">
           <h1>Hotel California</h1>
           <p>Guitar Solo Mastery Plan</p>
-          {progressHook.syncing && <span style={{fontSize: '0.75rem', color: 'var(--text-secondary)'}}>Syncing...</span>}
         </div>
         <div className="sidebar-content">
           <ProgressTracker 
