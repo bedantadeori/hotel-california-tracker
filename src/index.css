@@ -1,18 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
 
 :root {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --accent-color: #2563eb;
-  --accent-hover: #1d4ed8;
-  --success-color: #10b981;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Warm Dark Theme inspired by premium instrument sites */
+  --bg-primary: #12100f;
+  --bg-secondary: #1a1715;
+  --bg-hover: #24201d;
+  --text-primary: #f5f0eb;
+  --text-secondary: #9c9288;
+  --accent-color: #d1b896; /* Soft gold/brass */
+  --accent-hover: #e8cca6;
+  --success-color: #8db587; /* Subdued sage */
+  --border-color: #2f2a26;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
 }
 
 * {
@@ -58,7 +63,6 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  box-shadow: var(--shadow-sm);
   z-index: 10;
 }
 
@@ -67,22 +71,26 @@ body {
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
-  background: rgba(255,255,255,0.95);
+  background: rgba(26, 23, 21, 0.95);
   backdrop-filter: blur(8px);
   z-index: 10;
 }
 
 .sidebar-header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 400;
   color: var(--text-primary);
   margin-bottom: 4px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .sidebar-header p {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
+  text-align: center;
+  letter-spacing: 0.05em;
 }
 
 .main-content {
@@ -99,11 +107,11 @@ body {
 }
 
 .week-title {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -123,46 +131,45 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: var(--transition);
   border: 1px solid var(--border-color);
-  background: var(--bg-secondary);
+  background: transparent;
   color: var(--text-secondary);
   position: relative;
 }
 
 .day-bubble:hover:not(.locked) {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
   border-color: var(--accent-color);
   color: var(--accent-color);
+  background: rgba(209, 184, 150, 0.05); /* very subtle gold wash */
 }
 
 .day-bubble.current {
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-  background-color: #eff6ff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
 }
 
 .day-bubble.completed {
   background-color: var(--success-color);
   border-color: var(--success-color);
-  color: white;
+  color: var(--bg-primary);
+  font-weight: 500;
 }
 
 .day-bubble.completed:hover {
-  border-color: #059669;
-  background-color: #059669;
-  color: white;
+  border-color: #a3cc9d;
+  background-color: #a3cc9d;
 }
 
 .day-bubble.locked {
-  background-color: var(--bg-primary);
-  color: #cbd5e1;
+  background-color: transparent;
+  color: #3b3531;
   cursor: not-allowed;
-  border-style: dashed;
+  border-color: #2f2a26;
+  opacity: 0.5;
 }
 
 /* Day View */
@@ -180,28 +187,108 @@ body {
 
 .day-header {
   margin-bottom: 40px;
-  background: var(--bg-secondary);
-  padding: 32px;
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .day-subtitle {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--accent-color);
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.15em;
   margin-bottom: 12px;
 }
 
 .day-title {
-  font-size: 2.25rem;
-  font-weight: 800;
+  font-family: 'Lora', serif;
+  font-size: 2.5rem;
+  font-weight: 400;
   color: var(--text-primary);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+}
+
+/* Daily Motivation Cover */
+.daily-motivation-cover {
+  padding: 3rem 0 4rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.daily-motivation-cover::before {
+  content: 'DAILY MOTIVATION';
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.motivation-content {
+  font-family: 'Lora', serif;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  font-style: italic;
+  font-weight: 400;
+  max-width: 90%;
+}
+
+/* Resources Section */
+.resources-section {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.resources-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.resources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.resource-item {
+  background: var(--bg-hover);
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.resource-description {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.resource-description a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.resource-description a::before {
+  content: '↗';
+  font-size: 0.8rem;
+}
+
+.resource-description a:hover {
+  text-decoration: underline;
 }
 
 /* Login Screen Styles */
@@ -381,24 +468,20 @@ body {
 }
 
 .task-item {
-  background: var(--bg-secondary);
-  border-radius: 16px;
-  padding: 28px;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  background: transparent;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   gap: 20px;
   transition: var(--transition);
 }
 
-.task-item:hover {
-  box-shadow: var(--shadow-md);
-  border-color: #cbd5e1;
+.task-item:last-child {
+  border-bottom: none;
 }
 
 .task-item.completed {
-  background: #f8fafc;
-  border-color: var(--border-color);
+  opacity: 0.6;
 }
 
 .checkbox-wrapper {
@@ -407,16 +490,16 @@ body {
 }
 
 .custom-checkbox {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  border: 2px solid #94a3b8;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%; /* Circle checkboxes look more organic/premium */
+  border: 1px solid var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: var(--transition);
-  background: var(--bg-secondary);
+  background: transparent;
 }
 
 .custom-checkbox:hover {
@@ -424,10 +507,14 @@ body {
 }
 
 .custom-checkbox.checked {
-  background: var(--success-color);
-  border-color: var(--success-color);
-  color: white;
-  animation: pop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+.custom-checkbox svg {
+  width: 14px;
+  height: 14px;
 }
 
 @keyframes pop {

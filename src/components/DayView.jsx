@@ -86,8 +86,21 @@ export default function DayView({ dayData, progressHook }) {
     return parts.length > 0 ? parts : text;
   };
 
+  // Categorize content
+  const motivation = dayData.tasks.find(t => t.category === 'Daily Motivation');
+  const resources = dayData.tasks.filter(t => t.category === 'Resource');
+  const actionableTasks = dayData.tasks.filter(t => t.category !== 'Daily Motivation' && t.category !== 'Resource');
+
   return (
     <div className="day-view" key={dayId}>
+      {motivation && (
+        <div className="daily-motivation-cover">
+          <div className="motivation-content">
+            {parseDescription(motivation.content)}
+          </div>
+        </div>
+      )}
+
       <div className="day-header">
         <div className="day-subtitle">Week {dayData.week} • Day {dayData.day}</div>
         <h2 className="day-title">{dayData.title}</h2>
@@ -104,15 +117,18 @@ export default function DayView({ dayData, progressHook }) {
           </div>
         )}
 
-        {dayData.tasks.map((task, index) => {
-          const isChecked = tasksCompleted.includes(index);
+        {actionableTasks.map((task, index) => {
+          // We need to find the original index in `dayData.tasks` so that the database toggle matches the exact array item.
+          const originalIndex = dayData.tasks.findIndex(t => t === task);
+          const isChecked = tasksCompleted.includes(originalIndex);
+          
           return (
-            <div key={index} className={`task-item ${isChecked ? 'completed' : ''}`} style={!isUnlocked ? { opacity: 0.7 } : {}}>
+            <div key={originalIndex} className={`task-item ${isChecked ? 'completed' : ''}`} style={!isUnlocked ? { opacity: 0.7 } : {}}>
               <div className="checkbox-wrapper">
                 <div 
                   className={`custom-checkbox ${isChecked ? 'checked' : ''} ${!isUnlocked ? 'disabled' : ''}`}
                   onClick={() => {
-                    if (isUnlocked) toggleTask(dayId, index);
+                    if (isUnlocked) toggleTask(dayId, originalIndex);
                   }}
                   style={!isUnlocked ? { cursor: 'not-allowed', borderColor: 'var(--border-color)', backgroundColor: 'transparent' } : {}}
                 >
@@ -132,6 +148,21 @@ export default function DayView({ dayData, progressHook }) {
           );
         })}
       </div>
+
+      {resources.length > 0 && (
+        <div className="resources-section">
+          <h3 className="resources-title">Resources & Context</h3>
+          <div className="resources-list">
+            {resources.map((resource, i) => (
+              <div key={`res-${i}`} className="resource-item">
+                <div className="resource-description">
+                  {parseDescription(resource.content)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
