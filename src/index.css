@@ -67,8 +67,14 @@ body {
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;
   z-index: 10;
+}
+
+.sidebar-content {
+  flex: 1 1 0;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .sidebar-header {
@@ -757,7 +763,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: auto;
+  flex-shrink: 0;
   background: var(--bg-secondary);
 }
 
