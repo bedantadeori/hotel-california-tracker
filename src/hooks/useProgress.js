@@ -3,7 +3,16 @@ import planData from '../data/plan.json';
 import { supabase } from '../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 
-export function useProgress(userId) {
+export function useProgress() {
+  const [userId, setUserId] = useState(() => {
+    let id = localStorage.getItem('hc_user_id');
+    if (!id) {
+      id = uuidv4();
+      localStorage.setItem('hc_user_id', id);
+    }
+    return id;
+  });
+
   const [completedTasks, setCompletedTasks] = useState({});
   const [completedDays, setCompletedDays] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,10 +21,6 @@ export function useProgress(userId) {
   // Load initial data from Supabase
   useEffect(() => {
     async function loadData() {
-      if (!userId) {
-        setIsLoading(true);
-        return;
-      }
       try {
         const { data, error } = await supabase
           .from('user_progress')
@@ -49,7 +54,6 @@ export function useProgress(userId) {
   }, [userId]);
 
   const syncToSupabase = useCallback(async (tasks, days) => {
-    if (!userId) return;
     setSyncing(true);
     try {
       await supabase
