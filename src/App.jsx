@@ -9,7 +9,8 @@ import Login from './components/Login';
 export default function App() {
   const progressHook = useProgress();
   const [activeDay, setActiveDay] = useState(1);
-  const [session, setSession] = useState(undefined); // undefined = checking, null = no session
+  const [session, setSession] = useState(undefined);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Check auth state on mount
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function App() {
     return planData.find(d => d.day === activeDay);
   }, [activeDay]);
 
-  // Once progress loads, jump to the first incomplete day (their "current" day)
+  // Once progress loads, jump to the first incomplete day
   useEffect(() => {
     if (progressHook.isLoading) return;
     const totalDays = planData.length;
@@ -49,7 +50,6 @@ export default function App() {
         return;
       }
     }
-    // All days complete — stay on the last day
     setActiveDay(totalDays);
   }, [progressHook.isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -57,29 +57,31 @@ export default function App() {
     await supabase.auth.signOut();
   };
 
-  // Still checking auth status
+  // Close sidebar when a day is selected on mobile
+  const handleDaySelect = (day) => {
+    setActiveDay(day);
+    setSidebarOpen(false);
+  };
+
+  // Still checking auth
   if (session === undefined) {
     return (
-      <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <div style={{ marginBottom: '1rem', fontSize: '2rem' }}>🎸</div>
-          <h2>Loading...</h2>
+      <div className="splash-screen">
+        <div className="splash-inner">
+          <div className="splash-icon">🎸</div>
+          <h2>Guitar Mastery</h2>
         </div>
       </div>
     );
   }
 
-  // Not logged in
-  if (!session) {
-    return <Login />;
-  }
+  if (!session) return <Login />;
 
-  // Loading progress data
   if (progressHook.isLoading) {
     return (
-      <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <div style={{ marginBottom: '1rem', fontSize: '2rem' }}>⏳</div>
+      <div className="splash-screen">
+        <div className="splash-inner">
+          <div className="splash-icon">⏳</div>
           <h2>Loading Progress...</h2>
         </div>
       </div>
@@ -88,7 +90,52 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <aside className="sidebar">
+      {/* Mobile top bar */}
+      <header className="mobile-topbar">
+        <button
+          className="hamburger-btn"
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Open menu"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div className="mobile-topbar-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
+          </svg>
+          Guitar Mastery
+        </div>
+        <div className="mobile-topbar-day">Day {activeDay}</div>
+      </header>
+
+      {/* Overlay when sidebar open on mobile */}
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside className={`sidebar${sidebarOpen ? ' sidebar--open' : ''}`}>
+        {/* Close button visible on mobile */}
+        <button
+          className="sidebar-close-btn"
+          onClick={() => setSidebarOpen(false)}
+          aria-label="Close menu"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
         <div className="sidebar-header">
           <div className="app-logo-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -102,14 +149,16 @@ export default function App() {
             <p>Guitar Mastery Plan</p>
           </div>
         </div>
+
         <div className="sidebar-content">
           <ProgressTracker
             weeks={weeks}
             progressHook={progressHook}
             activeDay={activeDay}
-            setActiveDay={setActiveDay}
+            setActiveDay={handleDaySelect}
           />
         </div>
+
         <div className="sidebar-footer">
           <div className="sidebar-user">
             <div className="sidebar-user-avatar">

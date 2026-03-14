@@ -840,3 +840,214 @@ body {
   border-color: var(--text-secondary);
   background: var(--bg-hover);
 }
+
+/* ========================
+   Splash / Loading Screen
+   ======================== */
+.splash-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+}
+
+.splash-inner {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.splash-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.splash-inner h2 {
+  font-family: 'Lora', serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* ========================
+   Mobile Top Bar
+   ======================== */
+.mobile-topbar {
+  display: none; /* hidden on desktop */
+}
+
+/* ========================
+   Sidebar close button (mobile only)
+   ======================== */
+.sidebar-close-btn {
+  display: none;
+}
+
+/* ========================
+   Sidebar overlay (mobile)
+   ======================== */
+.sidebar-overlay {
+  display: none;
+}
+
+/* ========================
+   Mobile Breakpoint ≤ 768px
+   ======================== */
+@media (max-width: 768px) {
+
+  /* Full-height layout, stack vertically */
+  .app-container {
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Mobile top bar */
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    z-index: 20;
+  }
+
+  .hamburger-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+  }
+
+  .hamburger-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+
+  .mobile-topbar-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .mobile-topbar-day {
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+
+  /* Overlay backdrop */
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 30;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Sidebar becomes a slide-in drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 85vw;
+    max-width: 340px;
+    z-index: 40;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none;
+  }
+
+  .sidebar--open {
+    transform: translateX(0);
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Close button inside sidebar on mobile */
+  .sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 12px 16px 0;
+    transition: color 0.2s ease;
+  }
+
+  .sidebar-close-btn:hover {
+    color: var(--text-primary);
+  }
+
+  /* Main content takes full viewport below the topbar */
+  .main-content {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  /* ---- Day View reflowing ---- */
+  .day-cover {
+    padding: 24px 20px 20px;
+    min-height: 160px;
+  }
+
+  .day-cover h2 {
+    font-size: 1.5rem;
+  }
+
+  .day-cover p {
+    font-size: 0.95rem;
+  }
+
+  .day-content {
+    padding: 20px 16px;
+  }
+
+  .task-card {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .task-meta {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .resources-section {
+    padding: 20px 16px;
+  }
+
+  /* Login page on mobile */
+  .login-card-dark {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .login-title {
+    font-size: 1.6rem;
+  }
+}
