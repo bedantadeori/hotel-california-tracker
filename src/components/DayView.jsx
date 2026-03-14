@@ -25,6 +25,8 @@ export default function DayView({ dayData, progressHook }) {
 
   // Parse markdown-style links out of descriptions and embed media
   const parseDescription = (text) => {
+    // Strip trailing pipe symbols left over from the source markdown
+    text = text.replace(/\s*\|\s*$/, '').trim();
     // Basic regex to replace [text](url) with <a href="url" target="_blank">text</a>
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
     const parts = [];
