@@ -42,8 +42,15 @@ export default function App() {
     <div className="app-container">
       <aside className="sidebar">
         <div className="sidebar-header">
+          <div className="app-logo-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+               <path d="M9 18V5l12-2v13"></path>
+               <circle cx="6" cy="18" r="3"></circle>
+               <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </div>
           <h1>Hotel California</h1>
-          <p>Guitar Solo Mastery Plan</p>
+          <p>Mastery Plan</p>
         </div>
         <div className="sidebar-content">
           <ProgressTracker 

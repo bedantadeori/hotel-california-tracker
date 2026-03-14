@@ -67,32 +67,44 @@ body {
 }
 
 .sidebar-header {
-  padding: 48px 24px 32px;
+  padding: 40px 32px 32px;
   border-bottom: 1px solid var(--border-color);
-  position: sticky;
-  top: 0;
-  background-image: linear-gradient(to bottom, rgba(18, 16, 15, 0.4), rgba(18, 16, 15, 0.95)), url('https://images.unsplash.com/photo-1525201548942-d8732f6617a0?q=80&w=800&auto=format&fit=crop');
+  position: relative;
+  /* Darker gradient at the bottom so text is readable, lighter at the top to reveal the image */
+  background-image: linear-gradient(to bottom, rgba(18, 16, 15, 0.4) 0%, rgba(18, 16, 15, 0.95) 100%), url('https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=800');
   background-size: cover;
   background-position: center;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 280px; /* Force minimum height to expose the gorgeous hero image */
+}
+
+.app-logo-icon {
+  color: var(--accent-color);
+  opacity: 0.9;
+  margin-bottom: 24px;
 }
 
 .sidebar-header h1 {
   font-family: 'Lora', serif;
-  font-size: 1.75rem;
-  font-weight: 600;
+  font-size: 1.85rem;
+  font-weight: 500;
   color: #f5f0eb;
   margin-bottom: 8px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .sidebar-header p {
-  font-size: 0.85rem;
-  color: var(--accent-color);
-  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
   text-align: center;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
 }
 
