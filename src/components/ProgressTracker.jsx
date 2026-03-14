@@ -24,7 +24,7 @@ export default function ProgressTracker({ weeks, progressHook, activeDay, setAct
                 <div 
                   key={dayId} 
                   className={className} 
-                  onClick={() => unlocked && setActiveDay(dayId)}
+                  onClick={() => setActiveDay(dayId)}
                   title={day.title}
                 >
                   {completed ? '✓' : dayId}

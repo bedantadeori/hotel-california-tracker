@@ -62,22 +62,23 @@ export default function DayView({ dayData, progressHook }) {
 
       <div className="task-list">
         {!isUnlocked && (
-          <div className="task-item" style={{opacity: 0.6, pointerEvents: 'none'}}>
-            <div className="task-content" style={{textAlign: 'center', color: 'var(--text-secondary)'}}>
-              <strong>Day Locked</strong>
-              <p>Complete the tasks in Day {dayId - 1} to unlock today's practice.</p>
-            </div>
+          <div className="locked-banner" style={{marginBottom: '1.5rem', padding: '1rem', backgroundColor: 'var(--bg-secondary)', borderRadius: '12px', textAlign: 'center', color: 'var(--text-secondary)', border: '1px dashed var(--border-color)'}}>
+            <strong>🔒 Day Locked</strong>
+            <p style={{margin: '0.5rem 0 0 0', fontSize: '0.9rem'}}>Complete all tasks in Day {dayId - 1} to unlock today's practice.</p>
           </div>
         )}
 
-        {isUnlocked && dayData.tasks.map((task, index) => {
+        {dayData.tasks.map((task, index) => {
           const isChecked = tasksCompleted.includes(index);
           return (
-            <div key={index} className={`task-item ${isChecked ? 'completed' : ''}`}>
+            <div key={index} className={`task-item ${isChecked ? 'completed' : ''}`} style={!isUnlocked ? { opacity: 0.7 } : {}}>
               <div className="checkbox-wrapper">
                 <div 
-                  className={`custom-checkbox ${isChecked ? 'checked' : ''}`}
-                  onClick={() => toggleTask(dayId, index)}
+                  className={`custom-checkbox ${isChecked ? 'checked' : ''} ${!isUnlocked ? 'disabled' : ''}`}
+                  onClick={() => {
+                    if (isUnlocked) toggleTask(dayId, index);
+                  }}
+                  style={!isUnlocked ? { cursor: 'not-allowed', borderColor: 'var(--border-color)', backgroundColor: 'transparent' } : {}}
                 >
                   {isChecked && <CheckIcon />}
                 </div>
