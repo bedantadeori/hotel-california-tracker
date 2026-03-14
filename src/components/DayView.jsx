@@ -23,7 +23,7 @@ export default function DayView({ dayData, progressHook }) {
   const tasksCompleted = completedTasks[dayId] || [];
   const percentComplete = getDayProgress(dayId);
 
-  // Parse markdown-style links out of descriptions
+  // Parse markdown-style links out of descriptions and embed media
   const parseDescription = (text) => {
     // Basic regex to replace [text](url) with <a href="url" target="_blank">text</a>
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -35,11 +35,47 @@ export default function DayView({ dayData, progressHook }) {
       if (match.index > lastIndex) {
         parts.push(text.substring(lastIndex, match.index));
       }
-      parts.push(
-        <a key={match.index} href={match[2]} target="_blank" rel="noopener noreferrer">
-          {match[1]}
-        </a>
-      );
+      
+      const linkText = match[1];
+      const url = match[2];
+      
+      // Check if it's an image
+      const isImage = url.match(/\.(jpeg|jpg|gif|png|webp)$/i) != null;
+      
+      // Check if it's a YouTube video
+      let youtubeMatch = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/);
+      
+      if (isImage) {
+        parts.push(
+          <div key={match.index} className="media-embed image-embed">
+            <img src={url} alt={linkText} />
+            {linkText.toLowerCase() !== 'image' && <span className="media-caption">{linkText}</span>}
+          </div>
+        );
+      } else if (youtubeMatch) {
+         // Extract video ID (rudimentary way, works for standard watch?v= and youtu.be/)
+         let videoId = youtubeMatch[1].split('&')[0]; 
+         parts.push(
+           <div key={match.index} className="media-embed video-embed">
+             <iframe 
+               width="100%" 
+               height="315" 
+               src={`https://www.youtube.com/embed/${videoId}`} 
+               title={linkText} 
+               frameBorder="0" 
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+               allowFullScreen>
+             </iframe>
+           </div>
+         );
+      } else {
+        parts.push(
+          <a key={match.index} href={url} target="_blank" rel="noopener noreferrer">
+            {linkText}
+          </a>
+        );
+      }
+      
       lastIndex = linkRegex.lastIndex;
     }
 
