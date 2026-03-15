@@ -1051,3 +1051,143 @@ body {
     font-size: 1.6rem;
   }
 }
+
+/* ========================
+   Task Timer
+   ======================== */
+.task-timer-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.timer-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--accent-color);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.timer-start-btn:hover {
+  background: rgba(209, 184, 150, 0.08);
+  border-color: var(--accent-color);
+}
+
+/* Timer expanded panel */
+.timer-panel {
+  margin-top: 16px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  transition: all 0.3s ease;
+  animation: timerExpand 0.25s ease;
+}
+
+.timer-panel.timer-done {
+  border-color: rgba(141, 181, 135, 0.3);
+  background: rgba(141, 181, 135, 0.04);
+}
+
+@keyframes timerExpand {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Circular ring */
+.timer-ring-container {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-ring {
+  position: absolute;
+  top: 0; left: 0;
+}
+
+.timer-display {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.timer-digits {
+  font-family: 'Inter', monospace;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.timer-done-icon {
+  font-size: 2.5rem;
+  color: #8db587;
+}
+
+.timer-complete-msg {
+  font-size: 0.85rem;
+  color: #8db587;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* Timer controls */
+.timer-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.timer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid var(--border-color);
+  background: transparent;
+}
+
+.timer-pause-btn, .timer-resume-btn {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.timer-pause-btn:hover, .timer-resume-btn:hover {
+  background: rgba(209, 184, 150, 0.1);
+}
+
+.timer-reset-btn {
+  color: var(--text-secondary);
+}
+
+.timer-reset-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+}
