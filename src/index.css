@@ -619,10 +619,7 @@ body {
   border: 1px solid var(--border-color);
 }
 
-.task-item.completed .task-category {
-  background: #f1f5f9;
-  color: var(--text-secondary);
-}
+
 
 .task-item.completed .task-description {
   color: var(--text-secondary);
