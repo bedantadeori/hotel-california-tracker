@@ -1337,10 +1337,10 @@ body {
   flex-direction: row;
   align-items: stretch;
   gap: 12px;
-  padding: 20px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 20px 20px 12px 20px;
   background: var(--bg-secondary);
 }
+
 
 /* 1. Mastery Donut */
 .compact-mastery-card {
@@ -1356,30 +1356,23 @@ body {
   padding: 10px 4px;
 }
 
-.mastery-donut-container {
-  position: relative;
-  width: 52px;
-  height: 52px;
+.mastery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 4px;
 }
 
-.mastery-donut-text {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.mastery-percent {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
-.mastery-donut-text span {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  margin-left: 1px;
+.compact-mastery-card .progress-bar-bg {
+  width: 100%;
+  margin-top: auto;
 }
 
 .mastery-label {
@@ -1390,34 +1383,42 @@ body {
   font-weight: 600;
 }
 
-/* 2. Compact Jump Button */
-.compact-jump-btn {
-  flex: 1;
+/* Jump to Today Button Container */
+.jump-today-container {
+  padding: 0 20px 20px 20px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+
+.jump-today-btn {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  width: 100%;
   background: rgba(0,0,0,0.2);
   border: 1px solid rgba(255,255,255,0.04);
   border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
-  padding: 10px 4px;
+  padding: 12px;
 }
 
-.compact-jump-btn:hover {
+
+.jump-today-btn:hover {
   background: rgba(255,255,255,0.05);
   border-color: rgba(255,255,255,0.1);
   color: var(--accent-color);
 }
 
-.compact-jump-btn svg {
+.jump-today-btn svg {
   color: var(--accent-color);
 }
+
 
 /* 3. Compact Metronome */
 .compact-metronome {

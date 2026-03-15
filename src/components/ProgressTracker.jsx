@@ -9,34 +9,30 @@ export default function ProgressTracker({ weeks, progressHook, activeDay, setAct
   const completedCount = completedDays.length;
   const overallProgress = Math.round((completedCount / totalDays) * 100) || 0;
 
-  const radius = 22;
-  const circumference = 2 * Math.PI * radius;
-  const dashOffset = circumference - (overallProgress / 100) * circumference;
 
   return (
     <div className="tracker-wrapper">
       <div className="tracker-header-row">
         
-        {/* 1. Overall Mastery Donut */}
+        {/* 1. Overall Mastery (Bar) */}
         <div className="compact-mastery-card" title={`${completedCount} of ${totalDays} days completed`}>
-          <div className="mastery-donut-container">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <circle cx="26" cy="26" r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4" />
-              <circle 
-                cx="26" cy="26" r={radius} fill="none" 
-                stroke="var(--accent-color)" strokeWidth="4" strokeLinecap="round"
-                strokeDasharray={circumference} strokeDashoffset={dashOffset}
-                style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%', transition: 'stroke-dashoffset 0.8s ease' }}
-              />
-            </svg>
-            <div className="mastery-donut-text">{overallProgress}<span>%</span></div>
+          <div className="mastery-header">
+            <span className="mastery-label">Mastery</span>
+            <span className="mastery-percent">{overallProgress}%</span>
           </div>
-          <span className="mastery-label">Mastery</span>
+          <div className="progress-bar-bg small">
+            <div className="progress-bar-fill" style={{ width: `${overallProgress}%` }}></div>
+          </div>
         </div>
 
-        {/* 2. Jump to Today */}
+        {/* 2. Metronome */}
+        <Metronome />
+      </div>
+
+      {/* Jump to Today Button */}
+      <div className="jump-today-container">
         <button 
-          className="compact-jump-btn" 
+          className="jump-today-btn" 
           onClick={() => {
             const firstIncomplete = weeks.flatMap(w => w.days).find(d => !isDayCompleted(d.day));
             if (firstIncomplete) setActiveDay(firstIncomplete.day);
@@ -46,11 +42,8 @@ export default function ProgressTracker({ weeks, progressHook, activeDay, setAct
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
-          Today
+          Jump to Today
         </button>
-
-        {/* 3. Metronome */}
-        <Metronome />
       </div>
 
       {weeks.map(week => (
