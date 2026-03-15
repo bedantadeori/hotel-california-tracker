@@ -1191,3 +1191,7 @@ body {
   border-color: var(--text-secondary);
   background: rgba(255, 255, 255, 0.04);
 }
+
+.task-timer-container {
+  margin-top: 12px;
+}

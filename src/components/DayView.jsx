@@ -142,11 +142,15 @@ export default function DayView({ dayData, progressHook }) {
                 <div className="task-category-row">
                   <div className="task-category">{task.category}</div>
                   {task.duration && <div className="task-duration">⏳ {task.duration}</div>}
-                  {task.duration && isUnlocked && <TaskTimer duration={task.duration} key={`${dayId}-${originalIndex}`} />}
                 </div>
                 <div className="task-description">
                   {parseDescription(task.content)}
                 </div>
+                {task.duration && isUnlocked && (
+                  <div className="task-timer-container">
+                    <TaskTimer duration={task.duration} key={`${dayId}-${originalIndex}`} />
+                  </div>
+                )}
               </div>
             </div>
           );
