@@ -217,7 +217,7 @@ body {
 .day-bubble.locked {
   background-color: transparent;
   color: rgba(255, 255, 255, 0.28);
-  cursor: not-allowed;
+  cursor: default;
   border-color: rgba(255, 255, 255, 0.12);
   opacity: 1;
 }
@@ -1196,4 +1196,137 @@ body {
 .timer-active-btn {
   color: var(--text-secondary) !important;
   border-color: var(--border-color) !important;
+}
+
+.day-motivation-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* Sidebar Utilities */
+.tracker-utilities {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px 20px 20px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.jump-today-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--bg-hover);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.jump-today-btn:hover {
+  background-color: var(--border-color);
+  color: var(--accent-color);
+}
+
+/* Metronome */
+.metronome-container {
+  background-color: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metronome-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metronome-title {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.bpm-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.bpm-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+.bpm-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.1);
+}
+
+.bpm-input {
+  width: 36px;
+  background: transparent;
+  border: none;
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+.bpm-input::-webkit-outer-spin-button,
+.bpm-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.metronome-play-btn {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--accent-color);
+  background: transparent;
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.metronome-play-btn:hover {
+  background: rgba(209, 184, 150, 0.1);
+}
+
+.metronome-play-btn.playing {
+  background: var(--accent-color);
+  color: var(--bg-primary);
 }

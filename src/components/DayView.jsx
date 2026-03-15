@@ -97,17 +97,15 @@ export default function DayView({ dayData, progressHook }) {
 
   return (
     <div className="day-view" key={dayId}>
-      {motivation && (
-        <div className="daily-motivation-cover">
-          <div className="motivation-content">
-            {parseDescription(motivation.content)}
-          </div>
-        </div>
-      )}
 
       <div className="day-header">
         <div className="day-subtitle">Week {dayData.week} • Day {dayData.day}</div>
         <h2 className="day-title">{dayData.title}</h2>
+        {motivation && (
+          <div className="day-motivation-text">
+            {parseDescription(motivation.content)}
+          </div>
+        )}
         <div className="progress-bar-bg">
           <div className="progress-bar-fill" style={{ width: `${percentComplete}%` }}></div>
         </div>

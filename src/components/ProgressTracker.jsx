@@ -1,4 +1,5 @@
 import React from 'react';
+import Metronome from './Metronome';
 
 export default function ProgressTracker({ weeks, progressHook, activeDay, setActiveDay }) {
   const { isDayCompleted, isDayUnlocked, completedDays } = progressHook;
@@ -21,6 +22,24 @@ export default function ProgressTracker({ weeks, progressHook, activeDay, setAct
         <div className="global-progress-subtext">
           {completedCount} of {totalDays} practice days completed
         </div>
+      </div>
+
+      <div className="tracker-utilities">
+        <button 
+          className="jump-today-btn" 
+          onClick={() => {
+            const firstIncomplete = weeks.flatMap(w => w.days).find(d => !isDayCompleted(d.day));
+            if (firstIncomplete) setActiveDay(firstIncomplete.day);
+          }}
+          title="Go to current practice day"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+          Jump to Today
+        </button>
+
+        <Metronome />
       </div>
 
       {weeks.map(week => (
