@@ -57,8 +57,8 @@ export default function DayView({ dayData, progressHook }) {
           </div>
         );
       } else if (youtubeMatch) {
-         // Extract video ID (rudimentary way, works for standard watch?v= and youtu.be/)
-         let videoId = youtubeMatch[1].split('&')[0]; 
+         // Extract clean video ID — split on ? or & (handles both youtube.com and youtu.be URLs)
+         let videoId = youtubeMatch[1].split(/[?&]/)[0];
          parts.push(
            <div key={match.index} className="media-embed video-embed">
              <iframe 
