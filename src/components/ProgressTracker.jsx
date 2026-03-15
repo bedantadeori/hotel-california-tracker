@@ -9,7 +9,7 @@ export default function ProgressTracker({ weeks, progressHook, activeDay, setAct
   const completedCount = completedDays.length;
   const overallProgress = Math.round((completedCount / totalDays) * 100) || 0;
 
-  const radius = 16;
+  const radius = 22;
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference - (overallProgress / 100) * circumference;
 
@@ -20,10 +20,10 @@ export default function ProgressTracker({ weeks, progressHook, activeDay, setAct
         {/* 1. Overall Mastery Donut */}
         <div className="compact-mastery-card" title={`${completedCount} of ${totalDays} days completed`}>
           <div className="mastery-donut-container">
-            <svg width="40" height="40" viewBox="0 0 40 40">
-              <circle cx="20" cy="20" r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4" />
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4" />
               <circle 
-                cx="20" cy="20" r={radius} fill="none" 
+                cx="26" cy="26" r={radius} fill="none" 
                 stroke="var(--accent-color)" strokeWidth="4" strokeLinecap="round"
                 strokeDasharray={circumference} strokeDashoffset={dashOffset}
                 style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%', transition: 'stroke-dashoffset 0.8s ease' }}

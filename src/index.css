@@ -1358,8 +1358,8 @@ body {
 
 .mastery-donut-container {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
 }
 
 .mastery-donut-text {
@@ -1371,13 +1371,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .mastery-donut-text span {
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   margin-left: 1px;
 }
@@ -1460,9 +1460,10 @@ body {
   background: transparent;
   border: none;
   color: var(--text-secondary);
-  padding: 2px 8px;
+  padding: 4px 10px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .compact-bpm-controls button:hover {
@@ -1470,12 +1471,12 @@ body {
 }
 
 .compact-bpm-controls input {
-  width: 28px;
+  width: 38px;
   background: transparent;
   border: none;
   color: var(--accent-color);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   text-align: center;
   -moz-appearance: textfield;
   padding: 0;
