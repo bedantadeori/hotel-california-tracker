@@ -1,5 +1,5 @@
-import React from 'react';
-import TaskTimer from './TaskTimer';
+import React, { useState } from 'react';
+import { TimerPanel } from './TaskTimer';
 
 const CheckIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -23,6 +23,7 @@ export default function DayView({ dayData, progressHook }) {
   const isUnlocked = isDayUnlocked(dayId);
   const tasksCompleted = completedTasks[dayId] || [];
   const percentComplete = getDayProgress(dayId);
+  const [openTimerIndex, setOpenTimerIndex] = useState(null);
 
   // Parse markdown-style links out of descriptions and embed media
   const parseDescription = (text) => {
@@ -142,13 +143,32 @@ export default function DayView({ dayData, progressHook }) {
                 <div className="task-category-row">
                   <div className="task-category">{task.category}</div>
                   {task.duration && <div className="task-duration">⏳ {task.duration}</div>}
+                  {task.duration && isUnlocked && (
+                    openTimerIndex === originalIndex
+                      ? <button className="timer-start-btn timer-active-btn" onClick={() => setOpenTimerIndex(null)} title="Close timer">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                          Stop
+                        </button>
+                      : <button className="timer-start-btn" onClick={() => setOpenTimerIndex(originalIndex)} title="Start timer">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5,3 19,12 5,21" />
+                          </svg>
+                          Start
+                        </button>
+                  )}
                 </div>
                 <div className="task-description">
                   {parseDescription(task.content)}
                 </div>
-                {task.duration && isUnlocked && (
+                {openTimerIndex === originalIndex && isUnlocked && (
                   <div className="task-timer-container">
-                    <TaskTimer duration={task.duration} key={`${dayId}-${originalIndex}`} />
+                    <TimerPanel
+                      duration={task.duration}
+                      key={`${dayId}-${originalIndex}`}
+                      onClose={() => setOpenTimerIndex(null)}
+                    />
                   </div>
                 )}
               </div>
