@@ -1330,3 +1330,180 @@ body {
   background: var(--accent-color);
   color: var(--bg-primary);
 }
+
+/* Compact Tracker Header Row */
+.tracker-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+/* 1. Mastery Donut */
+.compact-mastery-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: var(--radius-md);
+  padding: 10px 4px;
+}
+
+.mastery-donut-container {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.mastery-donut-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.mastery-donut-text span {
+  font-size: 0.55rem;
+  color: var(--text-secondary);
+  margin-left: 1px;
+}
+
+.mastery-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* 2. Compact Jump Button */
+.compact-jump-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 10px 4px;
+}
+
+.compact-jump-btn:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--accent-color);
+}
+
+.compact-jump-btn svg {
+  color: var(--accent-color);
+}
+
+/* 3. Compact Metronome */
+.compact-metronome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: var(--radius-md);
+  padding: 10px 8px;
+  gap: 8px;
+}
+
+.metronome-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.metronome-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.compact-bpm-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
+.compact-bpm-controls button {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.compact-bpm-controls button:hover {
+  color: var(--text-primary);
+}
+
+.compact-bpm-controls input {
+  width: 28px;
+  background: transparent;
+  border: none;
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+  -moz-appearance: textfield;
+  padding: 0;
+}
+.compact-bpm-controls input::-webkit-outer-spin-button,
+.compact-bpm-controls input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.compact-metronome-play {
+  width: 100%;
+  padding: 4px 0;
+  border-radius: 4px;
+  border: 1px solid var(--accent-color);
+  background: transparent;
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.compact-metronome-play:hover {
+  background: rgba(209, 184, 150, 0.1);
+}
+
+.compact-metronome-play.playing {
+  background: var(--accent-color);
+  color: var(--bg-primary);
+}

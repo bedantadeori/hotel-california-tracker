@@ -78,24 +78,22 @@ export default function Metronome() {
   };
 
   return (
-    <div className="metronome-container">
-      <div className="metronome-header">
-        <span className="metronome-title">Metronome</span>
-        <div className="bpm-controls">
-          <button className="bpm-btn" onClick={() => adjustBpm(-5)}>-</button>
+    <div className="compact-metronome">
+      <div className="metronome-top">
+        <span className="metronome-label">Metronome</span>
+        <div className="compact-bpm-controls">
+          <button onClick={() => adjustBpm(-5)}>-</button>
           <input 
             type="number" 
-            className="bpm-input" 
             value={bpm} 
             onChange={handleBpmChange}
             min="30" max="240"
           />
-          <button className="bpm-btn" onClick={() => adjustBpm(5)}>+</button>
+          <button onClick={() => adjustBpm(5)}>+</button>
         </div>
       </div>
-      
       <button 
-        className={`metronome-play-btn ${playing ? 'playing' : ''}`}
+        className={`compact-metronome-play ${playing ? 'playing' : ''}`}
         onClick={() => setPlaying(!playing)}
       >
         {playing ? 'Stop' : 'Start'}
