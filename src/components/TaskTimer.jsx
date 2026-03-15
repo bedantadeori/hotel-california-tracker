@@ -13,29 +13,56 @@ function parseDurationToSeconds(duration) {
   return null;
 }
 
-// 4-note chime via Web Audio API
+// iPhone "Radar"-style alarm: loud repeating double-beep, 6 cycles ~3.5s total
 function playAlarm() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const notes = [523.25, 659.25, 783.99, 1046.50];
-    notes.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.22);
-      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.22);
-      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + i * 0.22 + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.22 + 0.6);
-      osc.start(ctx.currentTime + i * 0.22);
-      osc.stop(ctx.currentTime + i * 0.22 + 0.65);
-    });
-    setTimeout(() => ctx.close(), 2000);
+
+    // Master gain — loud
+    const masterGain = ctx.createGain();
+    masterGain.gain.setValueAtTime(0.85, ctx.currentTime);
+    masterGain.connect(ctx.destination);
+
+    // Each "beep": short square wave burst at 1040Hz (iPhone Radar pitch)
+    const BEEP_FREQ   = 1040;
+    const BEEP_DUR    = 0.12;  // seconds each beep lasts
+    const BEEP_GAP    = 0.10;  // gap between the two beeps in a pair
+    const PAIR_GAP    = 0.55;  // gap between pairs
+    const NUM_PAIRS   = 5;     // number of double-beep pairs
+
+    for (let i = 0; i < NUM_PAIRS; i++) {
+      const pairStart = ctx.currentTime + i * (BEEP_DUR * 2 + BEEP_GAP + PAIR_GAP);
+
+      // First beep in pair
+      for (let b = 0; b < 2; b++) {
+        const t = pairStart + b * (BEEP_DUR + BEEP_GAP);
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(masterGain);
+
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(BEEP_FREQ, t);
+
+        // Attack / sustain / decay envelope
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(1.0, t + 0.01);
+        gain.gain.setValueAtTime(1.0, t + BEEP_DUR - 0.03);
+        gain.gain.linearRampToValueAtTime(0, t + BEEP_DUR);
+
+        osc.start(t);
+        osc.stop(t + BEEP_DUR);
+      }
+    }
+
+    // Close context after all beeps finish
+    const totalDuration = NUM_PAIRS * (BEEP_DUR * 2 + BEEP_GAP + PAIR_GAP) + 0.5;
+    setTimeout(() => ctx.close(), totalDuration * 1000);
   } catch (e) {
     console.warn('Web Audio not available', e);
   }
 }
+
 
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60).toString().padStart(2, '0');
