@@ -216,10 +216,10 @@ body {
 
 .day-bubble.locked {
   background-color: transparent;
-  color: #3b3531;
+  color: rgba(255, 255, 255, 0.28);
   cursor: not-allowed;
-  border-color: #2f2a26;
-  opacity: 0.5;
+  border-color: rgba(255, 255, 255, 0.12);
+  opacity: 1;
 }
 
 .day-bubble.locked.current {
